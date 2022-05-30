@@ -74,3 +74,23 @@ SELECT WeightValue,
       SQUARE(WeightValue) AS WeightSquare, 
       SQRT (WeightValue) AS WeightSqrt
 FROM Shipments
+-------------------------------------------------------------------------------------------------
+DECLARE @variablename data_type
+
+DataTyper
+
+VARCHAR(n) : variable length text field (bytes)
+
+INT : integer values from -2,147,483,647 to  -2,147,483,647
+
+DECIMAL (p ,s) or NUMERIC (p ,s)
+
+p: total number of decimal digits that will be stored, both to the left and to the right of the decimal point
+
+s: number of decimal digits that will be stored to the right of the decimal point
+
+-------------------------------------------------------------------------------------------------
+5. Assigning values to variables
+There are two different methods for assigning a value to a variable. You can either use the reserved keyword SET or use SELECT to
+assign a value to a variable. When you assign a value to a variable using SET or SELECT there is no result shown. 
+To see the value of a variable you need to write a separate SELECT statement to return the value as shown here.
