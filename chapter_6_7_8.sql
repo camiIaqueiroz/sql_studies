@@ -94,3 +94,64 @@ s: number of decimal digits that will be stored to the right of the decimal poin
 There are two different methods for assigning a value to a variable. You can either use the reserved keyword SET or use SELECT to
 assign a value to a variable. When you assign a value to a variable using SET or SELECT there is no result shown. 
 To see the value of a variable you need to write a separate SELECT statement to return the value as shown here.
+-------------------------------------------------------------------------------------------------
+-- Declare the variable (a SQL Command, the var name, the datatype)
+DECLARE @counter INT 
+
+-- Set the counter to 20
+SET @counter = 20
+
+-- Select and increment the counter by one 
+SELECT @counter = @counter + 1 
+-- Print the variable
+SELECT @counter
+-------------------------------------------------------------------------------------------------
+DECLARE @counter INT 
+SET @counter = 20
+
+-- Create a loop
+WHILE @counter < 30
+
+-- Loop code starting point
+BEGIN
+	SELECT @counter = @counter + 1
+-- Loop finish
+END
+
+-- Check the value of the variable
+SELECT @counter
+-------------------------------------------------------------------------------------------------
+SELECT a.RecordId, a.Age, a.BloodGlucoseRandom, 
+-- Select maximum glucose value (use colname from derived table)    
+       b.MaxGlucose
+FROM Kidney a
+-- Join to derived table
+JOIN (SELECT Age, MAX(BloodGlucoseRandom) AS MaxGlucose FROM Kidney GROUP BY Age) b
+-- Join on Age
+ON a.Age = b.Age
+-------------------------------------------------------------------------------------------------
+SELECT *
+FROM Kidney a
+-- Create derived table: select age, max blood pressure from kidney grouped by age
+JOIN (SELECT Age, MAX(BloodPressure) AS MaxBloodPressure
+ FROM Kidney
+  GROUP BY Age) b
+-- JOIN on BloodPressure equal to MaxBloodPressure
+ON a.BloodPressure = b.MaxBloodPressure
+-- Join on Age
+AND a.Age = b.Age
+-------------------------------------------------------------------------------------------------
+-- Specify the keyowrds to create the CTE
+WITH BloodGlucoseRandom (MaxGlucose) 
+AS
+ (SELECT MAX(BloodGlucoseRandom) AS MaxGlucose FROM Kidney)
+
+SELECT a.Age, b.MaxGlucose
+FROM Kidney a
+-- Join the CTE on blood glucose equal to max blood glucose
+JOIN BloodGlucoseRandom b
+ON a.BloodGlucoseRandom = b.MaxGlucose
+-------------------------------------------------------------------------------------------------
+Create a windows data grouping
+
+OVER (PARTITION BY SalesYear ORDER BY SalesYear) 
